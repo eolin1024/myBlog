@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.eolin.blog.dao.UserDao">
+	<sql id = "Base_Column_List">
+		user_id,user_name,user_pwd,user_nickname,user_email,user_profile_photo,user_registration_time
+	</sql>
+
+	<select id="queryUserByUserId" resultType="User" parameterType="java.lang.Integer">
+		SELECT <include refid="Base_Column_List"/> 
+		FROM user 
+		WHERE user_id= #{userId}
+	</select>
+	<select id="queryUserByUserName" resultType="User" parameterType="java.lang.String">
+		SELECT <include refid="Base_Column_List"/> 
+		FROM user
+		WHERE user_name= #{userName}
+	</select>
+	<update id="updateUser">
+		UPDATE user
+		<set>
+			<if test="userName != null">user_name = #{userName,jdbcType=VARCHAR},</if>
+			<if test="userPwd != null">user_pwd = #{userPwd,jdbcType=VARCHAR},</if>
+			<if test="userNickname != null">user_nickname = #{userNickname,jdbcType=INTEGER},</if>
+			<if test="userEmail != null">user_email = #{userEmail,jdbcType=VARCHAR},</if>
+			<if test="userProfilePhoto!= null">user_profile_photo = #{userProfilePhoto,jdbcType=VARCHAR},</if>
+			<if test="userRegistrationTime!= null">user_registration_time= #{userRegistrationTime,jdbcType=VARCHAR},</if>
+		</set>
+		where user_id = #{userId,jdbcType=INTEGER}
+	</update>
+</mapper>
